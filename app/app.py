@@ -5,11 +5,35 @@ from utility import database
 app = FastAPI()
 
 @app.get("/vehicules")
-def fetch_vehicules():
+def fetch_vehicules(min: float = -1, max: float = -1):
     """ Récupérer la liste des véhicules enregistrés
     """
     db = database()
-    results = db.vehicules.find()
+    if min >= 0 and max >= 0:
+        # Le min et le max sont définit
+        results = db.vehicules.find({
+            "prix": {
+                "$gte": min, 
+                "$lte": max 
+            }
+        })
+    elif min >= 0 and max == -1:
+        # Le min est définit
+        results = db.vehicules.find({
+            "prix": {
+                "$gte": min,
+            }
+        })
+    elif min == -1 and max >= 0:
+        # Le max est définit
+        results = db.vehicules.find({
+            "prix": {
+                "$lte": max 
+            }
+        })
+    else :
+        # Aucun critère de sélection n'est définit.
+        results = db.vehicules.find()
     vehicules = []
 
     for result in results:

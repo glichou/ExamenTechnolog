@@ -12,6 +12,7 @@ services:
 
   seed_mongo:
     # Conteneur pour le peuplement de la base MongoDB
+    image: "glichou/seed_mongo"
     container_name: SeedMongo
     build:
       context: ./seed
@@ -23,6 +24,7 @@ services:
 
   app:
     # Conteneur de l'application et de l'API
+    image: "glichou/appli"
     container_name: Appli
     build:
       context: ./app
