@@ -11,3 +11,5 @@ On va avoir besoin de 3 conteneurs :
 
 Pour lancer le projet il faut executer la commande suivante :
 `` docker-compose up ``
+
+L'accès à l'API se fait à l'adresse suivante : http://localhost:3000
