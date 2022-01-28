@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  mongodb:
+    # Conteneur pour la base de données MongoDB
+    container_name: MongoDB
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - technolog_network
+
+networks:
+  technolog_network:
+    driver: bridge
+
+
