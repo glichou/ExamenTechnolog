@@ -21,6 +21,21 @@ services:
     networks:
       - technolog_network
 
+  app:
+    # Conteneur de l'application et de l'API
+    container_name: Appli
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    depends_on:
+      - mongodb
+    ports:
+      - "3000:3000"
+    networks:
+      - technolog_network
+
 networks:
   technolog_network:
     driver: bridge
+
+#docker-compose build --no-cache (pour recherger sans cache)
