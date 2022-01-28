@@ -10,8 +10,17 @@ services:
     networks:
       - technolog_network
 
+  seed_mongo:
+    # Conteneur pour le peuplement de la base MongoDB
+    container_name: SeedMongo
+    build:
+      context: ./seed
+      dockerfile: Dockerfile
+    depends_on:
+      - mongodb
+    networks:
+      - technolog_network
+
 networks:
   technolog_network:
     driver: bridge
-
-
