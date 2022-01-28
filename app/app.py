@@ -30,7 +30,23 @@ def create_vehicule(vehicule: ModeleVehicule):
     db = database()
 
     if db.vehicules.find_one({"immatriculation": vehicule.immatriculation}) is not None:
-        HTTPException(status=403, detail="Ce véhicule a déjà été enregistré dans la base.")
+        raise HTTPException(status=403, detail="Ce véhicule a déjà été enregistré dans la base.")
     result = db.vehicules.insert_one(vehicule.dict())
     return vehicule.dict()
 
+@app.get("/vehicules/{immatriculation}")
+def fetch_vehicules_by_immatriculation(immatriculation: str):
+    """ Rétrouver les informations d'un véhicule à partir de son immatriculation
+    """
+    db = database()
+    result = db.vehicules.find_one({"immatriculation": immatriculation})
+    if(result is not None):
+        return {
+            "immatriculation": result['immatriculation'],
+            "marque": result['marque'],
+            "modele": result['modele'],
+            "prix": result['prix'],
+            "couleur": result['couleur']
+        }
+    raise HTTPException(status=404, detail="Ce véhicule n'existe pas dans la base.")
+    
