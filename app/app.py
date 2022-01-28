@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from modele_vehicule import ModeleVehicule
 from utility import database
 
 app = FastAPI()
@@ -21,4 +22,15 @@ def fetch_vehicules():
         }
         vehicules.append(vehicule)
     return vehicules
+
+@app.post("/vehicules/")
+def create_vehicule(vehicule: ModeleVehicule):
+    """ Ajouter un véhicule à la base de données
+    """
+    db = database()
+
+    if db.vehicules.find_one({"immatriculation": vehicule.immatriculation}) is not None:
+        HTTPException(status=403, detail="Ce véhicule a déjà été enregistré dans la base.")
+    result = db.vehicules.insert_one(vehicule.dict())
+    return vehicule.dict()
 
